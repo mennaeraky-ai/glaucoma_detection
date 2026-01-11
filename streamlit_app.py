@@ -1,8 +1,9 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Glaucoma Detection App",
-    layout="wide"
+    page_title="Glaucoma Detection System",
+    layout="wide",
+    initial_sidebar_state="expanded"  # 🔥 FIX
 )
 
 st.title("🧠 Glaucoma Detection System")
@@ -16,4 +17,4 @@ st.markdown(
     """
 )
 
-st.info("Select a page from the sidebar 👈")
+st.info("👈 Select a page from the sidebar to start")
