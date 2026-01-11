@@ -1,69 +1,23 @@
-# import streamlit as st
-# import tensorflow as tf
-# import numpy as np
-# from PIL import Image
-# from utils.model_loader import 
-
-
-# IMG_SIZE = (224, 224)
-
-# st.title("🖼️ Test Glaucoma Detection Model")
-
-# @st.cache_resource
-# def load_model():
-#     model_path = get_model_path()
-#     return tf.keras.models.load_model(model_path)
-
-# def preprocess_image(image: Image.Image):
-#     image = image.convert("RGB").resize(IMG_SIZE)
-#     arr = np.array(image) / 255.0
-#     return np.expand_dims(arr, axis=0)
-
-# model = load_model()
-
-# uploaded_file = st.file_uploader(
-#     "Upload a retinal fundus image",
-#     type=["jpg", "jpeg", "png"]
-# )
-
-# if uploaded_file:
-#     image = Image.open(uploaded_file)
-#     st.image(image, use_container_width=True)
-
-#     if st.button("🔍 Predict"):
-#         with st.spinner("Analyzing image..."):
-#             x = preprocess_image(image)
-#             prob = model.predict(x)[0][0]
-
-#         label = "Glaucoma" if prob >= 0.5 else "Normal"
-#         confidence = prob if prob >= 0.5 else 1 - prob
-
-#         st.subheader("Prediction Result")
-#         st.write(f"**Prediction:** `{label}`")
-#         st.write(f"**Confidence:** `{confidence:.2%}`")
-
-#         if label == "Glaucoma":
-#             st.error("⚠️ Signs of glaucoma detected")
-#         else:
-#             st.success("✅ Normal fundus detected")
-
-# st.caption("⚕️ For research purposes only – not a medical diagnosis.")
-# pages/test_model.py
-# pages/test_model.py
 import streamlit as st
-from PIL import Image
+import tensorflow as tf
 import numpy as np
-from utils.model_loader import load_model
+from PIL import Image
+from utils.model_loader import get_model_path
 
 IMG_SIZE = (224, 224)
 
-def preprocess_image(image: Image.Image):
-    image = image.convert("RGB").resize(IMG_SIZE)
-    arr = np.array(image) / 255.0
-    return np.expand_dims(arr, axis=0)
-
-def app():   # <-- THIS IS CRUCIAL
+def app():
     st.title("🖼️ Test Glaucoma Detection Model")
+
+    @st.cache_resource
+    def load_model():
+        model_path = get_model_path()
+        return tf.keras.models.load_model(model_path)
+
+    def preprocess_image(image: Image.Image):
+        image = image.convert("RGB").resize(IMG_SIZE)
+        arr = np.array(image) / 255.0
+        return np.expand_dims(arr, axis=0)
 
     model = load_model()
 
@@ -77,11 +31,12 @@ def app():   # <-- THIS IS CRUCIAL
         st.image(image, use_container_width=True)
 
         if st.button("🔍 Predict"):
-            x = preprocess_image(image)
-            prob = model.predict(x)[0][0]
+            with st.spinner("Analyzing image..."):
+                x = preprocess_image(image)
+                prob = model.predict(x)[0][0]
 
             label = "Glaucoma" if prob >= 0.5 else "Normal"
-            confidence = prob if label == "Glaucoma" else 1 - prob
+            confidence = prob if prob >= 0.5 else 1 - prob
 
             st.subheader("Prediction Result")
             st.write(f"**Prediction:** `{label}`")
@@ -91,3 +46,5 @@ def app():   # <-- THIS IS CRUCIAL
                 st.error("⚠️ Signs of glaucoma detected")
             else:
                 st.success("✅ Normal fundus detected")
+
+    st.caption("⚕️ For research purposes only – not a medical diagnosis.")
