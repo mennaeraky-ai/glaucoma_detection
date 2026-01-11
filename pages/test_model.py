@@ -65,3 +65,7 @@ def app():
                 st.success("✅ Normal fundus detected")
 
     st.caption("⚕️ For research purposes only – not a medical diagnosis.")
+
+
+# Streamlit runs page files directly; render the page automatically.
+app()

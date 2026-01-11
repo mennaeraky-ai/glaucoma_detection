@@ -122,3 +122,6 @@ def app():
     - XGBoost and SVC provide the highest precision among classical models
     """)
 
+
+# Streamlit runs page files directly; render the page automatically.
+app()
