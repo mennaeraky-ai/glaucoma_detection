@@ -1,3 +1,5 @@
+# pages/model_comparison.py
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,7 +38,6 @@ def app():
     ax1.set_title(f"{metric_pretrain} – Pretraining Comparison")
     plt.xticks(rotation=20)
     plt.tight_layout()
-
     st.pyplot(fig1)
 
     # ===============================
@@ -74,7 +75,6 @@ def app():
     ax2.set_title(f"{metric_arch} – CNN Architecture Comparison")
     plt.xticks(rotation=30)
     plt.tight_layout()
-
     st.pyplot(fig2)
 
     st.markdown("""
