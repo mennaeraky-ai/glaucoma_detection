@@ -6,7 +6,7 @@ MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "LAST_glaucoma_model.keras")
 
 # 🔴 REPLACE WITH YOUR REAL FILE ID
-GDRIVE_FILE_ID = "PASTE_YOUR_FILE_ID_HERE"
+GDRIVE_FILE_ID = "11btPBNR74na_NjjnjrrYT8RSf8ffiumo"
 
 @st.cache_resource
 def get_model_path():
