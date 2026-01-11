@@ -1,7 +1,7 @@
 import streamlit as st
 import pages.test_model as test_model
 import pages.model_comparison as model_comparison
-from pages.model_comparison import app
+
 st.set_page_config(
     page_title="Glaucoma Detection System",
     layout="wide",
