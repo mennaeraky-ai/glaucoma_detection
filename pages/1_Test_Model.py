@@ -6,44 +6,45 @@ from utils.model_loader import get_model_path
 
 IMG_SIZE = (224, 224)
 
-st.title("🖼️ Test Glaucoma Detection Model")
+def app():
+    st.title("🖼️ Test Glaucoma Detection Model")
 
-@st.cache_resource
-def load_model():
-    model_path = get_model_path()
-    return tf.keras.models.load_model(model_path)
+    @st.cache_resource
+    def load_model():
+        model_path = get_model_path()
+        return tf.keras.models.load_model(model_path)
 
-def preprocess_image(image: Image.Image):
-    image = image.convert("RGB").resize(IMG_SIZE)
-    arr = np.array(image) / 255.0
-    return np.expand_dims(arr, axis=0)
+    def preprocess_image(image: Image.Image):
+        image = image.convert("RGB").resize(IMG_SIZE)
+        arr = np.array(image) / 255.0
+        return np.expand_dims(arr, axis=0)
 
-model = load_model()
+    model = load_model()
 
-uploaded_file = st.file_uploader(
-    "Upload a retinal fundus image",
-    type=["jpg", "jpeg", "png"]
-)
+    uploaded_file = st.file_uploader(
+        "Upload a retinal fundus image",
+        type=["jpg", "jpeg", "png"]
+    )
 
-if uploaded_file:
-    image = Image.open(uploaded_file)
-    st.image(image, use_container_width=True)
+    if uploaded_file:
+        image = Image.open(uploaded_file)
+        st.image(image, use_container_width=True)
 
-    if st.button("🔍 Predict"):
-        with st.spinner("Analyzing image..."):
-            x = preprocess_image(image)
-            prob = model.predict(x)[0][0]
+        if st.button("🔍 Predict"):
+            with st.spinner("Analyzing image..."):
+                x = preprocess_image(image)
+                prob = model.predict(x)[0][0]
 
-        label = "Glaucoma" if prob >= 0.5 else "Normal"
-        confidence = prob if prob >= 0.5 else 1 - prob
+            label = "Glaucoma" if prob >= 0.5 else "Normal"
+            confidence = prob if prob >= 0.5 else 1 - prob
 
-        st.subheader("Prediction Result")
-        st.write(f"**Prediction:** `{label}`")
-        st.write(f"**Confidence:** `{confidence:.2%}`")
+            st.subheader("Prediction Result")
+            st.write(f"**Prediction:** `{label}`")
+            st.write(f"**Confidence:** `{confidence:.2%}`")
 
-        if label == "Glaucoma":
-            st.error("⚠️ Signs of glaucoma detected")
-        else:
-            st.success("✅ Normal fundus detected")
+            if label == "Glaucoma":
+                st.error("⚠️ Signs of glaucoma detected")
+            else:
+                st.success("✅ Normal fundus detected")
 
-st.caption("⚕️ For research purposes only – not a medical diagnosis.")
+    st.caption("⚕️ For research purposes only – not a medical diagnosis.")
