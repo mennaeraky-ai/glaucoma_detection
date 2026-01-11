@@ -1,0 +1,19 @@
+import os
+import gdown
+import streamlit as st
+
+MODEL_DIR = "models"
+MODEL_PATH = os.path.join(MODEL_DIR, "LAST_glaucoma_model.keras")
+
+# 🔴 REPLACE WITH YOUR REAL FILE ID
+GDRIVE_FILE_ID = "PASTE_YOUR_FILE_ID_HERE"
+
+@st.cache_resource
+def get_model_path():
+    if not os.path.exists(MODEL_PATH):
+        os.makedirs(MODEL_DIR, exist_ok=True)
+        url = f"https://drive.google.com/uc?id={GDRIVE_FILE_ID}"
+        st.info("⬇️ Downloading model from Google Drive...")
+        gdown.download(url, MODEL_PATH, quiet=False)
+
+    return MODEL_PATH
