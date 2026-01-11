@@ -1,6 +1,6 @@
 import streamlit as st
 import pages.test_model as test_model
-import pages.2_Model_Comparison as model_comparison
+import pages.model_comparison as model_comparison
 
 # 1. Page Configuration
 st.set_page_config(
